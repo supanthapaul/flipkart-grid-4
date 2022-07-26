@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from 'react-router-dom';
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -188,7 +189,7 @@ export default function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>
-            <Button color="inherit">Become a Seller</Button>
+            <Button color="inherit"  component={Link} to={'/Seller'} >Become a Seller</Button>
 
             <IconButton
               size="large"
