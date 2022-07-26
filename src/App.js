@@ -1,4 +1,5 @@
 import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   const address = useAddress();
@@ -6,6 +7,7 @@ function App() {
   const disconnectWallet = useDisconnect();
   return (
     <div>
+			<Navbar />
       {address ? (
         <>
           <button onClick={disconnectWallet}>Disconnect Wallet</button>
