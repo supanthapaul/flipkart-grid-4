@@ -1,6 +1,6 @@
 import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
 import Navbar from './components/Navbar/Navbar';
-import Test from './components/Test/Test';
+import Test from './components/Test';
 
 function App() {
   const address = useAddress();
