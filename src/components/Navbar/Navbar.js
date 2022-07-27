@@ -195,7 +195,7 @@ export default function PrimarySearchAppBar() {
 						>
 							<AccountCircle />
 						</IconButton>
-						<Button color="inherit">Become a Seller</Button>
+						<Button component={Link} to="/seller" variant="inherit">Become a Seller</Button>
 						{address ? 
 							(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet</Button>) : 
 							(<Button variant="contained" color="info" onClick={connectWithMetamask}>Connect Wallet</Button>)}

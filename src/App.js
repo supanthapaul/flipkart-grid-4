@@ -12,14 +12,14 @@ function App() {
   return (
 		<>
 		
-			<Router>
+			<BrowserRouter>
 				<Navbar />
 				<Test />
 				<Routes>
 				<Route path='/Seller' element={<Seller />} />
 				
 				</Routes>
-			</Router>
+			</BrowserRouter>
 				
 				{address ? (
 					<>
