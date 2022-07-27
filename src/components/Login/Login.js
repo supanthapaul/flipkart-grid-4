@@ -22,18 +22,17 @@ export default function Login() {
         <CssBaseline />
         <Grid
           item
-          xs={false}
+          xs={4}
           sm={4}
-          md={7}
+          md={5}
           sx={{
             backgroundColor:'primary.main',
             backgroundRepeat: 'no-repeat',
-            
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
