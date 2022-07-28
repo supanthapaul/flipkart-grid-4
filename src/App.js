@@ -2,9 +2,10 @@ import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
 import Navbar from './components/Navbar/Navbar';
 import Seller from "./components/Seller/Seller";
 import Login from './components/Login/Login';
-import ReactDOM  from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Test from './components/Test';
+import CreateProduct from './components/CreateProduct/CreateProduct';
 
 function App() {
   const address = useAddress();
@@ -15,11 +16,11 @@ function App() {
 		
 			<BrowserRouter>
 				<Navbar />
-				<Test />
-				<Routes>
-				<Route path='/Seller' element={<Seller />} />
-				<Route path='/Login' element={<Login />} />
-				</Routes>
+				
+				<PrivateRoute exact path='/' component={Test} />
+				<PrivateRoute path='/seller-register' component={Seller} />
+				<PrivateRoute path='/create-product' component={CreateProduct} />
+				<Route path='/login' component={Login} />
 			</BrowserRouter>
 				
 				{address ? (

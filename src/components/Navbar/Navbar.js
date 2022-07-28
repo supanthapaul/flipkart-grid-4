@@ -1,23 +1,18 @@
-import * as React from "react";
-import { useAddress, useDisconnect, useMetamask,  } from '@thirdweb-dev/react';
-
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useAddress, useDisconnect, useMetamask, } from '@thirdweb-dev/react';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu } from '@mui/material';
 //import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Button from "@mui/material/Button";
 import MoreIcon from "@mui/icons-material/MoreVert";
+
+import firebase, { database } from '../../firebase/firebaseSetup';
+
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -59,16 +54,82 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	}
 }));
 
-export default function PrimarySearchAppBar() {
+export default function Navbar() {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const address = useAddress();
 	const connectWithMetamask = useMetamask();
 	const disconnectWallet = useDisconnect();
+	const history = useHistory();
+	const location = useLocation();
+	const startLogout = useStoreActions(actions => actions.auth.startLogout);
+	const setLogin = useStoreActions(actions => actions.auth.login);
+	const setWalletAddress = useStoreActions(actions => actions.auth.setWalletAddress);
+	const setLogout = useStoreActions(actions => actions.auth.logout);
+	const authState = useStoreState(state => state.auth.user);
 
 	const [
 		mobileMoreAnchorEl,
 		setMobileMoreAnchorEl
 	] = React.useState(null);
+
+	useEffect(() => {
+		// Listen for firebase auth change event
+		firebase.auth().onAuthStateChanged(async (user) => {
+			if (user) {
+				// store user in store
+				const userData = await database.collection('users').doc(user.uid).get();
+				if (userData.exists) {
+					setLogin({
+						uid: user.uid,
+						name: user.displayName,
+						email: user.email,
+						profilePhoto: user.photoURL,
+						walletAddress: userData.data().walletAddress,
+						type: userData.data().type,
+						companyName: userData.data().companyName,
+						nftCollectionAddress: userData.data().nftCollectionAddress,
+					});
+				} else {
+					const newUserData = {
+						uid: user.uid,
+						name: user.displayName,
+						email: user.email,
+						profilePhoto: user.photoURL,
+						walletAddress: null,
+						type: "user",
+						companyName: null,
+						nftCollectionAddress: null,
+					};
+					await database.collection('users').doc(user.uid).set(newUserData);
+					setLogin(newUserData);
+				}
+				history.push('/');
+			}
+			else {
+				disconnectWallet();
+				setLogout();
+				history.push('/login');
+			}
+		})
+
+		return () => {
+		};
+	}, []);
+
+	useEffect(() => {
+		if(address && authState.uid) {
+			// set wallet address in store
+			console.log('setting wallet address in store');
+			database.collection('users').doc(authState.uid).update({
+				walletAddress: address
+			});
+			setWalletAddress(address);
+		}
+	}, [address]);
+
+	const logoutUser = () => {
+		startLogout();
+	}
 
 	const isMenuOpen = anchorEl ? true : false;
 	const isMobileMenuOpen = mobileMoreAnchorEl ? true : false;
@@ -107,8 +168,11 @@ export default function PrimarySearchAppBar() {
 			open={isMenuOpen}
 			onClose={handleMenuClose}
 		>
-			<MenuItem onClick={handleMenuClose} component={Link} to="/Login">Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+			<MenuItem onClick={handleMenuClose} component={Link} to="/orders">Orders</MenuItem>
+			<MenuItem onClick={() => {
+				logoutUser();
+				handleMenuClose();
+			}}>Logout</MenuItem>
 		</Menu>
 	);
 
@@ -173,57 +237,67 @@ export default function PrimarySearchAppBar() {
 					>
 						Flipkart
 					</Typography>
-					<Search>
-						<SearchIconWrapper>
-							<SearchIcon />
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							inputProps={{ "aria-label": "search" }}
-						/>
-					</Search>
-					<Box sx={{ flexGrow: 1 }} />
-					<Box sx={{ display: { xs: "none", md: "flex" } }}>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
-						>
-							<AccountCircle />
-						</IconButton>
-						<Button component={Link} to="/seller" variant="inherit">Become a Seller</Button>
-						{address ? 
-							(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet</Button>) : 
-							(<Button variant="contained" color="info" onClick={connectWithMetamask}>Connect Wallet</Button>)}
+					{authState.uid && (
+						<>
+							<Search>
+								<SearchIconWrapper>
+									<SearchIcon />
+								</SearchIconWrapper>
+								<StyledInputBase
+									placeholder="Search…"
+									inputProps={{ "aria-label": "search" }}
+								/>
+							</Search>
+							<Box sx={{ flexGrow: 1 }} />
+							<Box sx={{ display: { xs: "none", md: "flex" } }}>
+								<IconButton
+									size="large"
+									edge="end"
+									aria-label="account of current user"
+									aria-controls={menuId}
+									aria-haspopup="true"
+									onClick={handleProfileMenuOpen}
+									color="inherit"
+								>
+									<AccountCircle />
+								</IconButton>
+								{
+									authState.type != "seller" ? (
+									<Button component={Link} to="/seller-register" variant="inherit">Become a Seller</Button>
+									) : (
+										<Button component={Link} to="/create-product" variant="inherit">List a Product</Button>
+									)
+								}
+								{address ?
+									(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet</Button>) :
+									(<Button variant="contained" color="info" onClick={connectWithMetamask}>Connect Wallet</Button>)}
 
-						<IconButton
-							size="large"
-							aria-label="show 17 new notifications"
-							color="inherit"
-						>
-							<ShoppingCartIcon />
-						</IconButton>
-					</Box>
-					<Box sx={{ display: { xs: "flex", md: "none" } }}>
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuId}
-							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</Box>
+								<IconButton
+									size="large"
+									aria-label="show 17 new notifications"
+									color="inherit"
+								>
+									<ShoppingCartIcon />
+								</IconButton>
+							</Box>
+							<Box sx={{ display: { xs: "flex", md: "none" } }}>
+								<IconButton
+									size="large"
+									aria-label="show more"
+									aria-controls={mobileMenuId}
+									aria-haspopup="true"
+									onClick={handleMobileMenuOpen}
+									color="inherit"
+								>
+									<MoreIcon />
+								</IconButton>
+							</Box>
+						</>
+					)}
 				</Toolbar>
 			</AppBar>
-			{renderMobileMenu}
-			{renderMenu}
+			{authState.uid && renderMobileMenu}
+			{authState.uid && renderMenu}
 		</Box>
 	);
 }

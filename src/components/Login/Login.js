@@ -1,4 +1,6 @@
 import * as React from 'react';
+import firebase from '../../firebase/firebaseSetup';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -8,6 +10,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 const theme = createTheme();
+const uiConfig = {
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+		firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+    // Avoid redirects after sign-in.
+    signInSuccessWithAuthResult: () => false,
+  },
+};
 
 export default function Login() {
   const handleSubmit = (event) => {
@@ -42,7 +55,7 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            
+            <StyledFirebaseAuth style={{minWidth:500}} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
               
             </Box>
           
