@@ -6,23 +6,32 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function Product() {
+const Product = (product) => {
+	const { productId, productName, productDescription, productImage, productPrice, productCategory } = product.product;
+	console.log(product)
   return (
     <div>
       <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
+				src={productImage}
         alt="green iguana"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Electronics
+				{productName}
+        </Typography>
+        <Typography variant="h6" fontWeight={800} color="coral">
+					<img 
+						src="/polygon-logo.svg"
+						height={15}
+						style={{ marginRight: '0.5rem' }}
+					/>
+          {productPrice}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {productDescription}
         </Typography>
       </CardContent>
       <CardActions>
@@ -35,3 +44,4 @@ export default function Product() {
     
   );
 }
+export default Product;

@@ -62,6 +62,8 @@ export default function Navbar() {
 	const history = useHistory();
 	const location = useLocation();
 	const startLogout = useStoreActions(actions => actions.auth.startLogout);
+	const startGetProducts = useStoreActions(actions => actions.products.startGetProducts);
+	const setProducts = useStoreActions(actions => actions.products.setProducts);
 	const setLogin = useStoreActions(actions => actions.auth.login);
 	const setWalletAddress = useStoreActions(actions => actions.auth.setWalletAddress);
 	const setLogout = useStoreActions(actions => actions.auth.logout);
@@ -103,6 +105,10 @@ export default function Navbar() {
 					await database.collection('users').doc(user.uid).set(newUserData);
 					setLogin(newUserData);
 				}
+				// get products
+				startGetProducts().then(snapshot => {
+					setProducts(snapshot.docs.map(doc => doc.data()));
+				});
 				history.push('/');
 			}
 			else {
@@ -117,7 +123,7 @@ export default function Navbar() {
 	}, []);
 
 	useEffect(() => {
-		if(address && authState.uid) {
+		if (address && authState.uid) {
 			// set wallet address in store
 			console.log('setting wallet address in store');
 			database.collection('users').doc(authState.uid).update({
@@ -263,7 +269,7 @@ export default function Navbar() {
 								</IconButton>
 								{
 									authState.type != "seller" ? (
-									<Button component={Link} to="/seller-register" variant="inherit">Become a Seller</Button>
+										<Button component={Link} to="/seller-register" variant="inherit">Become a Seller</Button>
 									) : (
 										<Button component={Link} to="/create-product" variant="inherit">List a Product</Button>
 									)
