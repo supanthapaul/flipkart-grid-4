@@ -20,6 +20,7 @@ function App() {
 		<>
 		
 			<BrowserRouter>
+			<div style={{minHeight: '85vh'}}>
 				<Navbar />
 				<NetworkSwitcher />
 				<PrivateRoute exact path='/' component={Test} />
@@ -29,9 +30,11 @@ function App() {
 				<PrivateRoute exact path='/product/:id' component={ProductPage} />
 				<PrivateRoute exact path='/orders' component={Orders} />
 				<Route exact path='/login' component={Login} />
-				<Footer />
+
+			</div>
 			</BrowserRouter>
 				
+				<Footer />
 				{address ? (
 					<>
 						<button onClick={disconnectWallet}>Disconnect Wallet</button>

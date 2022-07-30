@@ -8,16 +8,16 @@ export default function Footer() {
     <footer>
       <Box
         px={{ xs: 3, sm: 10 }}
-        py={{ xs: 3, sm: 5 }}
+        py={{ xs: 2, sm: 4 }}
         bgcolor="text.secondary"
         color="white"
       >
         <Container maxWidth="lg">
-          <Typography align="center" variant="h6">
-            Made by Supantha Paul and Ayushi Chaudhuri 
+          <Typography align="center" variant="body2">
+            Made by <strong>Supantha Paul</strong> and <strong>Ayushi Chaudhuri </strong>
           </Typography>
-          <Typography align="center" variant="h6">
-          with the help of React.js, ThreeWeb, Firebase and Metamask
+          <Typography align="center" variant="body1">
+          with the help of React.js, ThirdWeb, Firebase and Metamask
           </Typography>
         </Container>
       </Box>
