@@ -10,6 +10,7 @@ import { Typography } from '@mui/material';
 import { white } from '@mui/material/colors';
 
 
+
 const theme = createTheme();
 const uiConfig = {
   // We will display Google and Facebook as auth providers.
@@ -49,16 +50,31 @@ export default function Login() {
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
-						justifyContent: 'center',
+						
 					}}
         >
-          <Typography component="h1" align="center" color="white" variant="h5">
+          <Box m={2} pt={6}>
+          <Typography align="center" color="white" variant="h3">
             Login
           </Typography>
-
+          </Box>
+          
+          <Box m={2} pt={3}>
           <Typography variant="h6" align="center" color="white" paragraph>
              Get access to your Orders, Wishlist and Recommendations
             </Typography>
+          </Box>
+          
+          <Box
+        component="img"
+        sx={{
+          height: 350,
+          width: "auto",
+          
+        }}
+        alt="Shopping cart"
+        src="/Images/shopping.png"
+      />
           </Grid>
 
         <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
@@ -71,6 +87,11 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
+             <Box m={2} pt={3}>
+          <Typography variant="h6" align="center" paragraph>
+             Over 3 million customers trust our products and services. Join us today! Login using your email or gmail to continue.
+            </Typography>
+          </Box>
             <StyledFirebaseAuth style={{minWidth:500}} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
               
             </Box>
