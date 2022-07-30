@@ -1,13 +1,24 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import { Container } from '@mui/system';
-import { Typography } from '@mui/material';
+import { useStoreActions } from 'easy-peasy';
+import { ThirdwebNftMedia, useNFTCollection, useNFT } from "@thirdweb-dev/react";
+import { Typography, Button } from '@mui/material';
+import dayjs from 'dayjs';
 
 
-export default function Order() {
+const Order = ({ order }) => {
+	const [product, setProduct] = useState(null);
+	const startGetProduct = useStoreActions(actions => actions.products.startGetProduct);
+	const contract = useNFTCollection(order.nftCollectionAddress);
+	const { data: nft, isLoading } = useNFT(contract, parseInt(order.tokenId));
+
+	useEffect(() => {
+		startGetProduct(order.productId).then(res => {
+			setProduct(res.data())
+		});
+	}, []);
 	return (
 		<Paper elevation={1}>
 			<Grid container spacing={2}>
@@ -21,7 +32,7 @@ export default function Order() {
 
 						}}
 						alt="Shopping cart"
-						src="/Images/shopping.png"
+						src={product ? product.productImage : "/Images/shopping.png"}
 					/>
 				</Grid>
 
@@ -29,27 +40,48 @@ export default function Order() {
 					paddingTop: 50
 				}}>
 					<Typography align="left">
-						Handsaplast washproof adhesive band aid
+						<strong>
+							{product ? product.productName : "Fething product..."}
+						</strong>
+					</Typography>
+					<Typography align="left">
+						{product?.productDescription}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={2} sm={3} md={3} style={{
 					paddingTop: 50
 				}}>
-					<Typography>
-						Rs.196
+
+					<Typography variant="h6" fontWeight={800} color="coral">
+						<img
+							src="/eth-logo.svg"
+							height={15}
+							style={{ marginRight: '0.5rem' }}
+						/>
+						{product?.productPrice}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={2} sm={3} md={3} style={{
 					paddingTop: 50
 				}}>
-					<Typography>
-						F
-					</Typography>
+
+					{!isLoading && nft ? (
+						<>
+							<Typography>Product expires on {dayjs(nft.metadata.properties.expiry).format('DD/MM/YYYY')}</Typography>
+							<Button variant="outlined" color="primary" onClick={() => {
+								window.open( 
+									`https://testnets.opensea.io/assets/rinkeby/${order.nftCollectionAddress}/${order.tokenId}`, "_blank");
+							}}>View Warrranty NFT</Button>
+						</>
+					) : (
+						<p>Fetching warranty NFT...</p>
+					)}
 				</Grid>
 			</Grid>
 		</Paper>
 
 	);
 }
+export default Order;

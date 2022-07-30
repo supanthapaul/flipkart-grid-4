@@ -6,18 +6,22 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Chip } from '@mui/material';
 
 const Product = (product) => {
-	const { productId, productName, productDescription, productImage, productPrice, productCategory } = product.product;
+	const { productId, productName, productDescription, productImage, productPrice, productCategory, productWarrantyPeriod } = product.product;
 	console.log(product)
   return (
     <div>
       <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        height="140"
+        height="160"
 				src={productImage}
         alt="green iguana"
+				style={{
+					objectFit: 'contain',
+				}}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -35,10 +39,14 @@ const Product = (product) => {
         <Typography variant="body2" color="text.secondary">
           {productDescription}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Warranty Period: <i>{productWarrantyPeriod} Year(s) </i>
+        </Typography>
+				
       </CardContent>
       <CardActions>
-        <Button size="small">Add to cart</Button>
-        <Button component={Link} to={`/product/${productId}`} size="small">Learn More</Button>
+			<Chip label={productCategory} />
+        <Button component={Link} to={`/product/${productId}`} size="small">View Product</Button>
       </CardActions>
     </Card>
     </div>

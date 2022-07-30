@@ -1,5 +1,5 @@
 import { action, thunk } from 'easy-peasy';
-import firebase, {googleAuthProvider} from '../firebase/firebaseSetup';
+import firebase, {googleAuthProvider, database} from '../firebase/firebaseSetup';
 
 const INITIAL_STATE = {
 	uid: null,
@@ -19,6 +19,13 @@ const authModel = {
 	startLogin: thunk((actions, payload) => {
 		return firebase.auth().signInWithRedirect(googleAuthProvider);
 	}),
+	startSellerRegister: thunk((actions, payload) => {
+		return database.collection('users').doc(payload.uid).update({
+			type: "seller",
+			companyName: payload.companyName,
+			nftCollectionAddress: payload.nftCollectionAddress,
+		});
+	}),
 	// start logout
 	startLogout: thunk((actions, payload) => {
 		return firebase.auth().signOut();
@@ -26,6 +33,14 @@ const authModel = {
 	// Set login state
 	login: action((state, payload) => {
 		state.user = payload;
+	}),
+	setSeller: action((state, payload) => {
+		state.user = {
+			...state.user,
+			type: "seller",
+			companyName: payload.companyName,
+			nftCollectionAddress: payload.nftCollectionAddress,
+		};
 	}),
 	// Set wallet address
 	setWalletAddress: action((state, payload) => {

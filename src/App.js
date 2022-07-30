@@ -35,14 +35,14 @@ function App() {
 			</BrowserRouter>
 				
 				<Footer />
-				{address ? (
+				{/* {address ? (
 					<>
 						<button onClick={disconnectWallet}>Disconnect Wallet</button>
 						<p>Your address: {address}</p>
 					</>
 				) : (
 					<button onClick={connectWithMetamask}>Connect with Metamask</button>
-				)}
+				)} */}
 		</>
     
   );

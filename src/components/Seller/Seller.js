@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAddress, useSDK } from '@thirdweb-dev/react';
+import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useHistory } from 'react-router-dom';
 import { Typography, TextField, Button, Container, Checkbox, FormControlLabel, CircularProgress } from '@mui/material'
 
 const FORM_INITIAL_STATE = {
@@ -13,6 +15,10 @@ const FORM_INITIAL_STATE = {
 const Seller = () => {
 	const sdk = useSDK();
 	const address = useAddress();
+	const history = useHistory();
+	const startSellerRegister = useStoreActions(actions => actions.auth.startSellerRegister);
+	const setSeller = useStoreActions(actions => actions.auth.setSeller);
+	const authState = useStoreState(state => state.auth.user);
 	const [formState, setFormState] = useState(FORM_INITIAL_STATE);
 	const [isContractDeploying, setIsContractDeploying] = useState(false);
 
@@ -36,8 +42,25 @@ const Seller = () => {
 		setFormState({ ...formState, nftCollectionAddress: collectionAddress });
 		console.log(collectionAddress);
 	}
+
+	const onSellerRegister = async () => {
+		const { companyName, nftCollectionAddress } = formState;
+		if(!companyName || !nftCollectionAddress) {
+			return;
+		}
+		await startSellerRegister({
+			uid: authState.uid,
+			companyName,
+			nftCollectionAddress,
+		});
+		setSeller({
+			companyName,
+			nftCollectionAddress,
+		});
+		history.push('/');
+	}
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="sm" style={{ marginTop: '1rem' }}>
 			<Typography variant="h4" style={{ marginBottom: '1rem' }}>Start Selling!</Typography>
 			{address ? (
 				<form>
@@ -73,14 +96,16 @@ const Seller = () => {
 						style={{ marginBottom: '1rem' }}
 						fullWidth
 						disabled />
-					<Button variant="outlined" onClick={onCreateNFTCollection}>
+					<Button variant="outlined" onClick={onCreateNFTCollection} disabled={isContractDeploying || formState.nftCollectionAddress !== ''}>
 						{isContractDeploying ? <CircularProgress size={20} /> : 'Create NFT Collection'}
 					</Button>
 					<Button 
 						variant="contained"
 						style={{ marginLeft: '1rem' }}
-						disabled={formState.nftCollectionAddress == ''}>
-						Submit
+						disabled={formState.nftCollectionAddress == ''}
+						onClick={onSellerRegister}
+						>
+						Become Seller
 					</Button>
 				</form>
 			) : (

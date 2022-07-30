@@ -242,10 +242,12 @@ export default function Navbar() {
 						sx={{ mr: 2 }}
 					></IconButton>
 					<Typography
+						component={Link}
+						to="/"
 						variant="h6"
 						noWrap
-						component="div"
 						sx={{ display: { xs: "none", sm: "block" } }}
+						style={{ textDecoration: "none", color: "white" }}
 					>
 						Flipkart
 					</Typography>
@@ -284,13 +286,6 @@ export default function Navbar() {
 									(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet</Button>) :
 									(<Button variant="contained" color="info" onClick={connectWithMetamask}>Connect Wallet</Button>)}
 
-								<IconButton
-									size="large"
-									aria-label="show 17 new notifications"
-									color="inherit"
-								>
-									<ShoppingCartIcon />
-								</IconButton>
 							</Box>
 							<Box sx={{ display: { xs: "flex", md: "none" } }}>
 								<IconButton
