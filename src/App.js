@@ -6,6 +6,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Test from './components/Test';
 import CreateProduct from './components/CreateProduct/CreateProduct';
+import ProductPage from './components/Products/ProductPage';
+import Profile from './components/Profile/Profile';
 
 function App() {
   const address = useAddress();
@@ -18,9 +20,11 @@ function App() {
 				<Navbar />
 				
 				<PrivateRoute exact path='/' component={Test} />
-				<PrivateRoute path='/seller-register' component={Seller} />
-				<PrivateRoute path='/create-product' component={CreateProduct} />
-				<Route path='/login' component={Login} />
+				<PrivateRoute exact path='/profile' component={Profile} />
+				<PrivateRoute exact path='/seller-register' component={Seller} />
+				<PrivateRoute exact path='/create-product' component={CreateProduct} />
+				<PrivateRoute exact path='/product/:id' component={ProductPage} />
+				<Route exact path='/login' component={Login} />
 			</BrowserRouter>
 				
 				{address ? (
