@@ -31,7 +31,6 @@ const Seller = () => {
 		const collectionAddress = await sdk.deployer.deployNFTCollection({
 			name: collectionNameSame ? companyName : nftCollectionName,
 			primary_sale_recipient: recipientAddress,
-
 		});
 		setIsContractDeploying(false);
 		setFormState({ ...formState, nftCollectionAddress: collectionAddress });

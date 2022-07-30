@@ -60,10 +60,11 @@ export default function Navbar() {
 	const connectWithMetamask = useMetamask();
 	const disconnectWallet = useDisconnect();
 	const history = useHistory();
-	const location = useLocation();
 	const startLogout = useStoreActions(actions => actions.auth.startLogout);
 	const startGetProducts = useStoreActions(actions => actions.products.startGetProducts);
 	const setProducts = useStoreActions(actions => actions.products.setProducts);
+	const startGetOrders = useStoreActions(actions => actions.orders.startGetOrders);
+	const setOrders = useStoreActions(actions => actions.orders.setOrders);
 	const setLogin = useStoreActions(actions => actions.auth.login);
 	const setWalletAddress = useStoreActions(actions => actions.auth.setWalletAddress);
 	const setLogout = useStoreActions(actions => actions.auth.logout);
@@ -108,6 +109,10 @@ export default function Navbar() {
 				// get products
 				startGetProducts().then(snapshot => {
 					setProducts(snapshot.docs.map(doc => doc.data()));
+				});
+				// get orders
+				startGetOrders(user.uid).then(snapshot => {
+					setOrders(snapshot.docs.map(doc => doc.data()));
 				});
 				history.push('/');
 			}

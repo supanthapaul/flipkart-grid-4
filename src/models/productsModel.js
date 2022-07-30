@@ -3,7 +3,7 @@ import {database} from '../firebase/firebaseSetup';
 
 const INITIAL_STATE = []
 
-const authModel = {
+const productsModel = {
 	items: INITIAL_STATE,
 	error: null,
 	// Start add product
@@ -35,4 +35,4 @@ const authModel = {
 	}),
 }
 
-export default authModel;
+export default productsModel;
