@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useContract, useMintNFT, useAddress, useSDK } from '@thirdweb-dev/react'
-import { useParams , useHistory} from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { Button, Typography, CircularProgress } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
+import { Container } from '@mui/system';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
+
 
 // productId: '',
 // productName: '',
@@ -53,7 +58,7 @@ const ProductPage = () => {
 			productId: product.productId,
 			sellerId: seller.uid,
 			nftCollectionAddress: product.nftCollectionAddress,
-			tokenId : 0
+			tokenId: 0
 		}
 		setisLoading(true);
 		setBuyState("Transferring funds to seller...");
@@ -89,22 +94,78 @@ const ProductPage = () => {
 		<>
 			{address ? (
 				<>
-					<Typography variant='h4'>{product?.productName}</Typography>
-					<Typography variant='body2'>Seller: {seller?.walletAddress}</Typography>
-					<Button disabled={isLoading} variant="contained" size='large' onClick={onProductBuy}>
-						{isLoading ? (
-							<>
-							<CircularProgress size={20} />
-							{buyState}
-							</>
-						)
-							:(
-								<>
-								Buy Now
-								</>
-							)
-						}
-					</Button>
+					<Container maxWidth="lg">
+						<Grid container component="main">
+							<Grid item
+								xs={4}
+								sm={4}
+								md={5}
+								sx={{
+
+									backgroundRepeat: 'no-repeat',
+									backgroundSize: 'cover',
+									backgroundPosition: 'center',
+								}}
+								style={{
+									color: 'white',
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+
+								}}
+							>
+								<Box
+									component="img"
+									sx={{
+										height: 350,
+										width: "auto",
+
+									}}
+									alt="Shopping cart"
+									src={product?.productImage}
+								/>
+								<Box>
+									<Button disabled={isLoading} variant="contained" size='large' onClick={onProductBuy}>
+										{isLoading ? (
+											<>
+												<CircularProgress size={20} />
+												{buyState}
+											</>
+										)
+											: (
+												<>
+													Buy Now
+												</>
+											)
+										}
+									</Button>
+								</Box>
+							</Grid>
+							<Grid item xs={12} sm={8} md={7}>
+								<Box>
+									<Typography variant='h4' align="left">{product?.productName}</Typography>
+									<Chip label={product?.productCategory} />
+
+									<Typography variant="h6" fontWeight={800} color="coral">
+										<img
+											src="/eth-logo.svg"
+											height={15}
+											style={{ marginRight: '0.5rem' }}
+										/>
+										{product?.productPrice}
+									</Typography>
+
+									<Typography variant="h5" align="left" paragraph>{product?.productDescription}</Typography>
+									<Typography variant="h6" align="left" paragraph>Warranty Period: {product?.productWarrantyPeriod}</Typography>
+
+
+									<Typography variant="h5" align="left" paragraph>Sold by: {seller?.companyName}</Typography>
+
+								</Box>
+							</Grid>
+						</Grid>
+					</Container>
+
 				</>
 			) : (
 				<Typography variant="h6" color="inherit">Connect your wallet </Typography>
