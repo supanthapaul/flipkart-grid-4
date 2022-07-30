@@ -6,7 +6,8 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { Typography } from '@mui/material';
+import { white } from '@mui/material/colors';
 
 
 const theme = createTheme();
@@ -44,7 +45,17 @@ export default function Login() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
+  
+        >
+          <Typography component="h1" align="center" color="white" variant="h5">
+            Login
+          </Typography>
+
+          <Typography variant="h6" align="center" color="white" paragraph>
+             Get access to your Orders, Wishlist and Recommendations
+            </Typography>
+          </Grid>
+
         <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square>
           <Box
             sx={{
