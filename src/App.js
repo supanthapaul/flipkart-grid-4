@@ -10,6 +10,7 @@ import ProductPage from './components/Products/ProductPage';
 import Profile from './components/Profile/Profile';
 import NetworkSwitcher from './components/NetworkSwitcher/NetworkSwitcher';
 import Orders from './components/Orders/Orders';
+import Footer from './components/Footer/Footer';
 
 function App() {
   const address = useAddress();
@@ -28,6 +29,7 @@ function App() {
 				<PrivateRoute exact path='/product/:id' component={ProductPage} />
 				<PrivateRoute exact path='/orders' component={Orders} />
 				<Route exact path='/login' component={Login} />
+				<Footer />
 			</BrowserRouter>
 				
 				{address ? (
