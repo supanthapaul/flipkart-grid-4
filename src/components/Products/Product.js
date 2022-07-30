@@ -31,6 +31,7 @@ const Product = (product) => {
 					/>
           {productPrice}
         </Typography>
+				
         <Typography variant="body2" color="text.secondary">
           {productDescription}
         </Typography>

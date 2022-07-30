@@ -7,7 +7,7 @@ import store from './store/configureStore';
 import './index.css';
 
 // This is the chainId your dApp will work on.
-const activeChainId = ChainId.Rinkeby;
+const activeChainId = ChainId.Mumbai;
 
 const container = document.getElementById("root");
 ReactDOM.render(

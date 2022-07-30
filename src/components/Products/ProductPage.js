@@ -27,13 +27,11 @@ const ProductPage = () => {
 				name: product?.productName,
 				description: product?.productDescription,
 				image: product?.productImage,
-				price: 1,
 				properties: {
 					
 				}
 			},
 			to: address,
-			price: 1,
 		})
 	}
 	return (

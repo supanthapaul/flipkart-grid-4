@@ -8,6 +8,7 @@ import Test from './components/Test';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 import ProductPage from './components/Products/ProductPage';
 import Profile from './components/Profile/Profile';
+import NetworkSwitcher from './components/NetworkSwitcher/NetworkSwitcher';
 
 function App() {
   const address = useAddress();
@@ -18,7 +19,7 @@ function App() {
 		
 			<BrowserRouter>
 				<Navbar />
-				
+				<NetworkSwitcher />
 				<PrivateRoute exact path='/' component={Test} />
 				<PrivateRoute exact path='/profile' component={Profile} />
 				<PrivateRoute exact path='/seller-register' component={Seller} />

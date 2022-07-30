@@ -45,7 +45,12 @@ export default function Login() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-  
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
         >
           <Typography component="h1" align="center" color="white" variant="h5">
             Login
