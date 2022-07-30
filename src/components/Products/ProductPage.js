@@ -6,6 +6,15 @@ import { Button, Typography, CircularProgress } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
 
+// productId: '',
+// productName: '',
+// productDescription: '',
+// productImage: '',
+// productSellerId: '',
+// productPrice: 0,
+// productCategory: 'mobile',
+// productWarrantyPeriod: 0,
+// nftCollectionAddress: '',
 const ProductPage = () => {
 	const { id } = useParams();
 	const address = useAddress();
