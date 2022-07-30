@@ -25,7 +25,7 @@ const Product = (product) => {
         </Typography>
         <Typography variant="h6" fontWeight={800} color="coral">
 					<img 
-						src="/polygon-logo.svg"
+						src="/eth-logo.svg"
 						height={15}
 						style={{ marginRight: '0.5rem' }}
 					/>

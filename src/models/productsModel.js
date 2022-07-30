@@ -18,6 +18,9 @@ const authModel = {
 	startGetProduct: thunk((actions, payload) => {
 		return database.collection('products').doc(payload).get();
 	}),
+	startGetSeller: thunk((actions, payload) => {
+		return database.collection('users').doc(payload).get();
+	}),
 	// add 1 product to state
 	addProduct: action((state, payload) => {
 		state.items = [payload, ...state.items];

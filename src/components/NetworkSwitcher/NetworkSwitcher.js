@@ -12,13 +12,13 @@ const NetworkSwitcher = () => {
 			(address && isMismatched) ?
 			<Alert severity="warning"
 				action={
-					<Button variant='outlined' color="inherit" size="medium" onClick={() => switchNetwork(ChainId.Mumbai)}>
-						Switch to Polygon Mumbai
+					<Button variant='outlined' color="inherit" size="medium" onClick={() => switchNetwork(ChainId.Rinkeby)}>
+						Switch to Rinkeby Testnet
 					</Button>
 				}
 			>
 				<AlertTitle>Wrong Network!</AlertTitle>
-				This app is built on the Polygon Mumbai network, but you are currently on a different network. In order to use this app, please switch to the Polygon Mumbai network.
+				This app is built on the Ethereum Rinkeby network, but you are currently on a different network. In order to use this app, please switch to the Rinkeby network.
 			</Alert>
 			:<></>
 		}

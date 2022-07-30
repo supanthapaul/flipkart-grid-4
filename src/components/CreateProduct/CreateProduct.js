@@ -102,10 +102,10 @@ const CreateProduct = () => {
 								fullWidth
 								required
 								InputProps={{
-									startAdornment: <InputAdornment position="start">$MATIC</InputAdornment>,
+									startAdornment: <InputAdornment position="start">$ETH</InputAdornment>,
 								}}
 								style={{ marginBottom: '1rem' }}
-								placeholder="Enter your Product Price (in MATIC)" />
+								placeholder="Enter your Product Price (in ETH)" />
 						</Grid>
 						<Grid item xs={12} sm={6}>
 							<FormControl fullWidth>
