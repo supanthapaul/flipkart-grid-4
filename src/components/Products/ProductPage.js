@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useContract, useMintNFT, useAddress, useSDK } from '@thirdweb-dev/react'
 import { useParams, useHistory } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { Button, Typography, CircularProgress } from '@mui/material';
+import { Button, Typography, CircularProgress, Divider } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
 import { Container } from '@mui/system';
@@ -44,6 +44,9 @@ const ProductPage = () => {
 	useEffect(() => {
 		if (product && !seller) {
 			startGetSeller(product.productSellerId).then(seller => {
+				if(seller.data().uid == authState.uid) {
+					setBuyState("You are the seller");
+				}
 				setSeller(seller.data());
 				console.log(seller.data());
 			});
@@ -94,7 +97,7 @@ const ProductPage = () => {
 		<>
 			{address ? (
 				<>
-					<Container maxWidth="lg">
+					<Container maxWidth="lg" style={{marginTop: 20}}>
 						<Grid container component="main">
 							<Grid item
 								xs={4}
@@ -118,17 +121,20 @@ const ProductPage = () => {
 									component="img"
 									sx={{
 										height: 350,
-										width: "auto",
+										width: 350,
 
+									}}
+									style={{
+										objectFit: 'cover',
+										marginBottom: '1rem',
 									}}
 									alt="Shopping cart"
 									src={product?.productImage}
 								/>
-								<Box>
-									<Button disabled={isLoading} variant="contained" size='large' onClick={onProductBuy}>
-										{isLoading ? (
+									<Button disabled={isLoading || seller?.uid == authState.uid} fullWidth variant="contained" size='large' onClick={onProductBuy}>
+										{isLoading || seller?.uid == authState.uid ? (
 											<>
-												<CircularProgress size={20} />
+												{isLoading && <CircularProgress size={20} />}
 												{buyState}
 											</>
 										)
@@ -139,27 +145,27 @@ const ProductPage = () => {
 											)
 										}
 									</Button>
-								</Box>
 							</Grid>
 							<Grid item xs={12} sm={8} md={7}>
 								<Box>
 									<Typography variant='h4' align="left">{product?.productName}</Typography>
-									<Chip label={product?.productCategory} />
+									<Chip label={product?.productCategory} style={{ marginBottom: '1rem' }} />
 
-									<Typography variant="h6" fontWeight={800} color="coral">
+									<Typography variant="h4" fontWeight={800} color="coral">
 										<img
 											src="/eth-logo.svg"
-											height={15}
+											height={30}
 											style={{ marginRight: '0.5rem' }}
 										/>
 										{product?.productPrice}
 									</Typography>
+									<Typography variant="h6" align="left" paragraph>Sold by: {seller?.companyName}</Typography>
+									<Typography variant="h6" align="left" paragraph>Warranty Period: {product?.productWarrantyPeriod} Year(s)</Typography>
 
-									<Typography variant="h5" align="left" paragraph>{product?.productDescription}</Typography>
-									<Typography variant="h6" align="left" paragraph>Warranty Period: {product?.productWarrantyPeriod}</Typography>
+									<Typography variant="h5" align="left" paragraph>Product Information</Typography>
+									<Divider />
+									<Typography variant="body1" align="left" paragraph>{product?.productDescription}</Typography>
 
-
-									<Typography variant="h5" align="left" paragraph>Sold by: {seller?.companyName}</Typography>
 
 								</Box>
 							</Grid>
