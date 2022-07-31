@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useAddress, useSDK } from '@thirdweb-dev/react';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useHistory } from 'react-router-dom';
-import { Typography, TextField, Button, Container, Checkbox, FormControlLabel, CircularProgress } from '@mui/material'
+import { Typography, TextField, Button, Container, Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+
 
 const FORM_INITIAL_STATE = {
 	companyName: '',
@@ -28,7 +31,7 @@ const Seller = () => {
 
 	const onCreateNFTCollection = async () => {
 		const { companyName, nftCollectionName, collectionNameSame, recipientAddress } = formState;
-		if(recipientAddress === '') {
+		if (recipientAddress === '') {
 			console.log(recipientAddress);
 			return;
 		}
@@ -45,7 +48,7 @@ const Seller = () => {
 
 	const onSellerRegister = async () => {
 		const { companyName, nftCollectionAddress } = formState;
-		if(!companyName || !nftCollectionAddress) {
+		if (!companyName || !nftCollectionAddress) {
 			return;
 		}
 		await startSellerRegister({
@@ -72,6 +75,15 @@ const Seller = () => {
 						fullWidth
 						style={{ marginBottom: '1rem' }}
 						placeholder="Enter your Company Name" />
+
+
+					<Alert severity="info" style={{
+						marginBottom: '1rem'
+					}}>
+						<AlertTitle>Create an NFT Collection</AlertTitle>
+						Generate an NFT Collection which will represent your company where your buyers will mint warranty NFTs for the products they purchased from you.
+					</Alert>
+
 					<TextField
 						type="text"
 						label="NFT Collection name"
@@ -81,10 +93,10 @@ const Seller = () => {
 						fullWidth
 						placeholder="Enter your NFT Collection name" />
 					<FormControlLabel
-						control={<Checkbox 
+						control={<Checkbox
 							checked={formState.collectionNameSame}
 							onChange={(e) => setFormState({ ...formState, collectionNameSame: e.target.checked })}
-							 />}
+						/>}
 						label="NFT Collection name same as company name"
 						style={{ marginBottom: '1rem' }} />
 					<TextField
@@ -99,12 +111,12 @@ const Seller = () => {
 					<Button variant="outlined" onClick={onCreateNFTCollection} disabled={isContractDeploying || formState.nftCollectionAddress !== ''}>
 						{isContractDeploying ? <CircularProgress size={20} /> : 'Create NFT Collection'}
 					</Button>
-					<Button 
+					<Button
 						variant="contained"
 						style={{ marginLeft: '1rem' }}
 						disabled={formState.nftCollectionAddress == ''}
 						onClick={onSellerRegister}
-						>
+					>
 						Become Seller
 					</Button>
 				</form>
