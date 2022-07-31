@@ -4,26 +4,22 @@ import Seller from "./components/Seller/Seller";
 import Login from './components/Login/Login';
 import { BrowserRouter, Route } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import Test from './components/Test';
 import CreateProduct from './components/CreateProduct/CreateProduct';
 import ProductPage from './components/Products/ProductPage';
 import Profile from './components/Profile/Profile';
 import NetworkSwitcher from './components/NetworkSwitcher/NetworkSwitcher';
 import Orders from './components/Orders/Orders';
 import Footer from './components/Footer/Footer';
+import Products from './components/Products/Products';
 
 function App() {
-  const address = useAddress();
-  const connectWithMetamask = useMetamask();
-  const disconnectWallet = useDisconnect();
   return (
 		<>
-		
 			<BrowserRouter>
 			<div style={{minHeight: '85vh'}}>
 				<Navbar />
 				<NetworkSwitcher />
-				<PrivateRoute exact path='/' component={Test} />
+				<PrivateRoute exact path='/' component={Products} />
 				<PrivateRoute exact path='/profile' component={Profile} />
 				<PrivateRoute exact path='/seller-register' component={Seller} />
 				<PrivateRoute exact path='/create-product' component={CreateProduct} />

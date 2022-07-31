@@ -36,10 +36,22 @@ Nodejs should be installed in the device. Along with Nodejs, any code editor and
    ```
 2. After cloning this repository, migrate to `flipkart-grid-4` folder. Then, follow the following steps:
 
-- Create Metamsak account
+- Create Metamask account
 - Link metamask account to the application
 
-3. Run the following commands to run your app:
+3. This project uses Firebase. To connect it with your firebase project, create a `.env` file on the root directory with the following keys,  
+```REACT_APP_API_KEY  
+REACT_APP_APP_ID  
+REACT_APP_AUTH_DOMAIN  
+REACT_APP_MESSAGING_SENDER_ID  
+REACT_APP_PROJECT_ID  
+REACT_APP_STORAGE_BUCKET
+```
+
+Key values should correspond to your Firebase project config.
+
+
+4. Run the following commands to run your app:
 
 ```bash
   npm i (to install all the dependencies)
@@ -47,9 +59,4 @@ Nodejs should be installed in the device. Along with Nodejs, any code editor and
   Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ```
 
-## Machine configuration
-
-- `OS:` Windows 10 64 bit
-- `RAM:` 8 GB
-- `Processor:` 11th Gen Intel(R) Core(TM) i5
 
