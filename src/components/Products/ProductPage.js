@@ -9,6 +9,8 @@ import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 
 // productId: '',
@@ -44,7 +46,7 @@ const ProductPage = () => {
 	useEffect(() => {
 		if (product && !seller) {
 			startGetSeller(product.productSellerId).then(seller => {
-				if(seller.data().uid == authState.uid) {
+				if (seller.data().uid == authState.uid) {
 					setBuyState("You are the seller");
 				}
 				setSeller(seller.data());
@@ -97,8 +99,8 @@ const ProductPage = () => {
 		<>
 			{address ? (
 				<>
-					<Container maxWidth="lg" style={{marginTop: 20}}>
-						<Grid container component="main">
+					<Container maxWidth="lg" style={{ marginTop: 20 }}>
+						<Grid container component="main" spacing={2}>
 							<Grid item
 								xs={4}
 								sm={4}
@@ -131,20 +133,20 @@ const ProductPage = () => {
 									alt="Shopping cart"
 									src={product?.productImage}
 								/>
-									<Button disabled={isLoading || seller?.uid == authState.uid} fullWidth variant="contained" size='large' onClick={onProductBuy}>
-										{isLoading || seller?.uid == authState.uid ? (
+								<Button disabled={isLoading || seller?.uid == authState.uid} fullWidth variant="contained" size='large' onClick={onProductBuy}>
+									{isLoading || seller?.uid == authState.uid ? (
+										<>
+											{isLoading && <CircularProgress size={20} />}
+											{buyState}
+										</>
+									)
+										: (
 											<>
-												{isLoading && <CircularProgress size={20} />}
-												{buyState}
+												Buy Now
 											</>
 										)
-											: (
-												<>
-													Buy Now
-												</>
-											)
-										}
-									</Button>
+									}
+								</Button>
 							</Grid>
 							<Grid item xs={12} sm={8} md={7}>
 								<Box>
@@ -161,6 +163,13 @@ const ProductPage = () => {
 									</Typography>
 									<Typography variant="h6" align="left" paragraph>Sold by: {seller?.companyName}</Typography>
 									<Typography variant="h6" align="left" paragraph>Warranty Period: {product?.productWarrantyPeriod} Year(s)</Typography>
+
+									<Alert severity="info" style={{
+										marginBottom: '1rem'
+									}}>
+										<AlertTitle>Get a unique NFT!</AlertTitle>
+										Get a unique NFT upon purchase which will act as your warranty card that will contain important information regarding your order.
+									</Alert>
 
 									<Typography variant="h5" align="left" paragraph>Product Information</Typography>
 									<Divider />
