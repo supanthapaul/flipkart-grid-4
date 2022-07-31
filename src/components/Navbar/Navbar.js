@@ -283,7 +283,7 @@ export default function Navbar() {
 									)
 								}
 								{address ?
-									(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet</Button>) :
+									(<Button variant="contained" color="error" onClick={disconnectWallet}>Disconnect Wallet ({address.substring(0, 4) + "..." + address.substring(address.length-3, address.length) })</Button>) :
 									(<Button variant="contained" color="info" onClick={connectWithMetamask}>Connect Wallet</Button>)}
 
 							</Box>
