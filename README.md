@@ -1,4 +1,4 @@
-# Flipkart Grid 4.0 Submission- Blockchain-based eCommerce warranty system using NFTs
+# Web3 Store- Blockchain-based eCommerce warranty system using NFTs
 
 ## About The Project
 
